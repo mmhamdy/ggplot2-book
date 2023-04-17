@@ -28,7 +28,7 @@ ggplot(mpg, aes(displ, hwy)) +
     y = "Highway miles per gallon", 
     colour = "Number of cylinders",
     title = "Mileage by engine size and cylinders",
-    subtitle = "Source: http://fueleconomy.gov"
+    subtitle = "Source: https://fueleconomy.gov"
   )
 ```
 
@@ -120,8 +120,8 @@ annotation can be tricky due to the way that R handles fonts. The ggplot2 packag
       x = c(1, 1, 2, 2, 1.5),
       y = c(1, 2, 1, 2, 1.5),
       text = c(
-        "bottom-left", "bottom-right", 
-        "top-left", "top-right", "center"
+        "bottom-left", "top-left",  
+        "bottom-right", "top-right", "center"
       )
     )
     ggplot(df, aes(x, y)) +
@@ -135,7 +135,7 @@ annotation can be tricky due to the way that R handles fonts. The ggplot2 packag
     points (pts). The reason for this choice is that it makes it the units for
     font sizes consistent with how other sizes are specified in ggplot2. 
     (There are 72.27 pts in a inch, so to convert from points to mm, just 
-    multiply by 72.27 / 25.4). \index{Font!size}
+    multiply by 25.4 / 72.27). \index{Font!size}
 
 *   `angle` specifies the rotation of the text in degrees.
 
@@ -149,15 +149,21 @@ In addition to the various aesthetics, `geom_text()` has three parameters that y
     parameters:
     
     ```{r text-nudge}
-    df <- data.frame(trt = c("a", "b", "c"), resp = c(1.2, 3.4, 2.5))
-    ggplot(df, aes(resp, trt)) + 
+    df <- data.frame(
+      treatment = c("a", "b", "c"), 
+      response = c(1.2, 3.4, 2.5)
+    )
+    
+    ggplot(df, aes(treatment, response)) + 
       geom_point() + 
-      geom_text(aes(label = paste0("(", resp, ")")), nudge_y = -0.25) + 
-      xlim(1, 3.6)
+      geom_text(
+        mapping = aes(label = paste0("(", response, ")")), 
+        nudge_x = -0.3
+      ) + 
+      ylim(1.1, 3.6)
     ```
     
-    (Note that I manually tweaked the x-axis limits to make sure all the 
-    text fit on the plot.)
+    (Note that we manually tweaked the y-axis limits to give the labels a little extra room.)
 
 *   The third parameter is `check_overlap`. If `check_overlap = TRUE`, overlapping 
     labels will be automatically removed from the plot. The algorithm is simple: 
@@ -395,7 +401,7 @@ mod_coef <- coef(lm(log10(price) ~ log10(carat), data = diamonds))
 ggplot(diamonds, aes(log10(carat), log10(price))) + 
   geom_bin2d() + 
   geom_abline(intercept = mod_coef[1], slope = mod_coef[2], 
-    colour = "white", size = 1) + 
+    colour = "white", linewidth = 1) + 
   facet_wrap(vars(cut), nrow = 1)
 ```
 

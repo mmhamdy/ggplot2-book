@@ -19,7 +19,7 @@ toy <- data.frame(
 )
 ```
 
-The scales toolbox in Chapters \@ref(scale-position) to \@ref(scale-other) provides extensive guidance for how to work with scales, focusing on solving common data visualisation problems. The practical goals of the toolbox mean that topics are introduced when they are most relevant: for example, scale transformations are discussed in relation to continuous position scales (Section \@ref(scale-transformation)) because that is the most common situation in which you might want to transform a scale. However, because ggplot2 aims to provide a grammar of graphics, there is nothing preventing you from transforming other kinds of scales (see Section \@ref(scale-transformation-extras)). This chapter aims to illustrate these concepts: I'll discuss the theory underpinning scales and guides, and give examples showing how concepts that I've discussed specifically for position or colour scales also apply elsewhere.  
+The scales toolbox in Chapters \@ref(scale-position) to \@ref(scale-other) provides extensive guidance for how to work with scales, focusing on solving common data visualisation problems. The practical goals of the toolbox mean that topics are introduced when they are most relevant: for example, scale transformations are discussed in relation to continuous position scales (Section \@ref(scale-transformation)) because that is the most common situation in which you might want to transform a scale. However, because ggplot2 aims to provide a grammar of graphics, there is nothing preventing you from transforming other kinds of scales (see Section \@ref(scale-transformation-extras)). This chapter aims to illustrate these concepts: We'll discuss the theory underpinning scales and guides, and give examples showing how concepts that we've discussed specifically for position or colour scales also apply elsewhere.  
 
 
 ## Theory of scales and guides {#scales-guides-theory}
@@ -171,7 +171,7 @@ for that it would be an esoteric theory thing. -->
 continuous. try to cover most of the oob_* functions. might be valuable to highlight 
 oob_keep() for position scales, as a way of making limits behave like zoom --> 
 
-The default behaviour in ggplot2 is to convert out of bounds values to `NA`, the logic for this begin that if a data value is not part of the mapped region, it should be treated as missing. This can occasionally lead to unexpected behaviour, as illustrated in Section \@ref(zooming-in). You can override this default by setting `oob` argument of the scale, a function that is applied to all observations outside the scale limits. The default is `scales::oob_censor()` which replaces any value outside the limits with `NA`. Another option is `scales::oob_squish()` which squishes all values into the range. An example using a fill scale is shown below:
+The default behaviour in ggplot2 is to convert out of bounds values to `NA`, the logic for this being that if a data value is not part of the mapped region, it should be treated as missing. This can occasionally lead to unexpected behaviour, as illustrated in Section \@ref(zooming-in). You can override this default by setting `oob` argument of the scale, a function that is applied to all observations outside the scale limits. The default is `scales::oob_censor()` which replaces any value outside the limits with `NA`. Another option is `scales::oob_squish()` which squishes all values into the range. An example using a fill scale is shown below:
 
 `r columns(3,1)`
 ```{r}
@@ -255,7 +255,7 @@ p1 <- base + scale_x_binned(breaks = seq(-50,50,10), limits = c(-50, 50))
 p2 <- base + scale_x_binned(breaks = seq(-50,50,10), limits = c(-50, 50), trans = "reverse")
 ```
 
-Binned scales can be transformed, much like continuous scales, but some care is required because the bins are constructed in the transformed space. In some cases this can produce undesirable outcomes. In the code below, I take a uniformly distributed variable and use `scale_x_binned()` and `geom_bar()` to construct a histogram of the logarithmically transformed data. 
+Binned scales can be transformed, much like continuous scales, but some care is required because the bins are constructed in the transformed space. In some cases this can produce undesirable outcomes. In the code below, we take a uniformly distributed variable and use `scale_x_binned()` and `geom_bar()` to construct a histogram of the logarithmically transformed data. 
 
 `r columns(1, 1/2, 1)`
 ```{r}
@@ -371,7 +371,7 @@ base + geom_line()
 base + geom_line(key_glyph = "timeseries")
 ```
 
-More precisely, each geom is associated with a function such as `draw_key_path()`, `draw_key_boxplot()` or `draw_key_path()` which is responsible for drawing the key when the legend is created. You can pass the desired key drawing function directly: for example, `base + geom_line(key_glyph = draw_key_timeseries)` would also produce the plot shown above right.
+More precisely, each geom is associated with a function such as `draw_key_boxplot()` or `draw_key_path()` which is responsible for drawing the key when the legend is created. You can pass the desired key drawing function directly: for example, `base + geom_line(key_glyph = draw_key_timeseries)` would also produce the plot shown above right.
 
 
 

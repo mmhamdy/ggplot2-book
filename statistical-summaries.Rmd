@@ -60,19 +60,19 @@ ggplot(midwest, aes(percwhite, percbelowpoverty)) +
   scale_size_area("Population\n(millions)", breaks = c(0.5, 1, 2, 4))
 ```
 
-For more complicated grobs which involve some statistical transformation, we specify weights with the `weight` aesthetic. These weights will be passed on to the statistical summary function. Weights are supported for every case where it makes sense: smoothers, quantile regressions, boxplots, histograms, and density plots. You can't see this weighting variable directly, and it doesn't produce a legend, but it will change the results of the statistical summary. The following code shows how weighting by population density affects the relationship between percent white and percent below the poverty line.
+For more complicated geoms which involve some statistical transformation, we specify weights with the `weight` aesthetic. These weights will be passed on to the statistical summary function. Weights are supported for every case where it makes sense: smoothers, quantile regressions, boxplots, histograms, and density plots. You can't see this weighting variable directly, and it doesn't produce a legend, but it will change the results of the statistical summary. The following code shows how weighting by population density affects the relationship between percent white and percent below the poverty line.
 
 `r columns(2, 2/3)`
 ```{r weight-lm} 
 # Unweighted
 ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
   geom_point() + 
-  geom_smooth(method = lm, size = 1)
+  geom_smooth(method = lm, linewidth = 1)
 
 # Weighted by population
 ggplot(midwest, aes(percwhite, percbelowpoverty)) + 
   geom_point(aes(size = poptotal / 1e6)) + 
-  geom_smooth(aes(weight = poptotal), method = lm, size = 1) +
+  geom_smooth(aes(weight = poptotal), method = lm, linewidth = 1) +
   scale_size_area(guide = "none")
 ```
 
@@ -146,7 +146,7 @@ ggplot(diamonds, aes(depth)) +
   theme(legend.position = "none")
 ```
 
-(I've suppressed the legends to focus on the display of the data.)
+(We've suppressed the legends to focus on the display of the data.)
 
 Both the histogram and frequency polygon geom use the same underlying statistical transformation: `stat = "bin"`. This statistic produces two output variables: `count` and `density`. By default, count is mapped to y-position, because it's most interpretable. The density is the count divided by the total count multiplied by the bin width, and is useful when you want to compare the shape of the distributions, not the overall size. \indexf{stat\_bin}
 
